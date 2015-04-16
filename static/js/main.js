@@ -1,5 +1,10 @@
 $(document).ready(function() {
     
+    var canvas = document.getElementById('map');
+    //var canvasContext = canvas.getContext('2d');
+    var clickedPositionX;
+    var clickedPositionY;
+    
     // Setup Websocket connections and details
 	var ws = new WebSocket("ws://" + window.location.hostname + ":5000/socket?Id=1");
 	ws.onopen = function(){
@@ -10,16 +15,29 @@ $(document).ready(function() {
 		ws.send("Closing socket connection");
 	}
     
+    //Setup Raphael JS for drawing
+    
+    var paper = Raphael($("#map")[0], 2095, 1000);
+    var mapImage = paper.image('/static/floorplan.jpg',0, 0, 2095, 1000);
+    mapImage.click( function(event){
+        console.log('Drawing circle at: ' + event.pageX +' '+ event.pageY);
+        var circle = paper.circle(event.pageX,event.pageY,50);
+    });
+    
     //Dynamically resize the map
     $('#content').height(function(){
        return $(window).height() * 0.9;
     });
-    // Add insert modafl functionality
+    
+    // Add insert modal functionality
     $('#insertModal').modal('hide');
+    $('#saveInsertModal').click(function(){
+        $('#insertModal').modal('hide');
+        drawCircleOnCanvas(clickedPositionX, clickedPositionY);
+    });
     
     // Setup event listener for mouse click
-    var canvas = document.getElementById("map");
-    canvas.addEventListener("mousedown", function(e){
+    /*canvas.addEventListener("mousedown", function(e){
         var x = e.x;
         var y = e.y;
         
@@ -27,8 +45,10 @@ $(document).ready(function() {
         y -= canvas.offsetTop;
         
         //alert("x:" + x + " y:" + y);
+        clickedPositionX = x;
+        clickedPositionY = y;
         $('#insertModal').modal('show');
-    }, false);
+    }, false);*/
     
     // Setup the Twitter autocomplete integration
     
