@@ -33,6 +33,16 @@ class SearchHandler(tornado.web.RequestHandler):
         self.write(json.dumps(nameList.json()))
         self.finish()
 
+class FindHandler(tornado.web.RequestHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        view = dbLocations.design('findLocations').view('locationView')
+        locationList = view.get(params={
+            'keys' : '["' + self.get_argument('findName') + '"]'
+        })
+        self.write(json.dumps(locationList.json()))
+        self.finish()
+
 class InsertHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
     def get(self):
@@ -74,6 +84,7 @@ app = tornado.web.Application([
 		(r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'static/'}),
 		(r'/', IndexHandler),
         (r'/search', SearchHandler),
+        (r'/find', FindHandler),
         (r'/insert', InsertHandler),
 		(r'/socket', WebSocketHandler),
 		])
