@@ -13,9 +13,25 @@ $(document).ready(function() {
 	}
     
     //Setup Raphael JS for drawing
-    
     var paper = Raphael($("#map")[0], 2095, 1000);
     var mapImage = paper.image('/static/floorplan.jpg',0, 0, 2095, 1000);
+    
+    //Helper function to draw on map
+    function drawCircleOnMap(x, y, firstLetterInName){
+        var circle = paper.circle(
+                x, y,30).attr({
+                "fill":"#fff",
+                "stroke":"#000",
+                "stroke-width":"5"
+            });
+        var text = paper.text(x, y, firstLetterInName);
+        circle.animate({opacity:0}, 3500, function(){
+            this.remove();
+        });
+        text.animate({opacity:0}, 3500, function(){
+            this.remove();
+        });
+    }
     
     mapImage.click( function(event){
         clickedPositionX = event.pageX + $('#content').scrollLeft();
@@ -39,22 +55,7 @@ $(document).ready(function() {
         $.get('../insert',data);
         
         $('#insertModal').modal('hide');
-        var circle = paper.circle(
-                clickedPositionX,
-                clickedPositionY,30).attr({
-                "fill":"#fff",
-                "stroke":"#000",
-                "stroke-width":"5"
-            });
-        var text = paper.text(
-            clickedPositionX, clickedPositionY, data['name'][0]
-        );
-        circle.animate({opacity:0}, 3500, function(){
-            this.remove();
-        });
-        text.animate({opacity:0}, 3500, function(){
-            this.remove();
-        });
+        drawCircleOnMap(clickedPositionX, clickedPositionY, data['name'][0]);
     });
     
     // Setup the Twitter autocomplete integration
@@ -98,7 +99,13 @@ $(document).ready(function() {
         $.get('../find',
               sendData,
               function(data){
-                alert('Got data back');
+                var jData = jQuery.parseJSON(data);
+                jData['rows'].forEach(function(dPoint){
+                    var posX = dPoint['value']['posX'];
+                    var posY = dPoint['value']['posY'];
+                    
+                    drawCircleOnMap(posX, posY, dPoint['key'][0]);
+                });
         });
     });
     
