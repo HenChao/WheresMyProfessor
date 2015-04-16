@@ -1,0 +1,6 @@
+---
+applications:
+- name: WheresMyProfessor
+  buildpack: python_buildpack
+  instances: 1
+  memory: 128M

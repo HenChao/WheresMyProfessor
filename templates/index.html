@@ -1,0 +1,57 @@
+<!doctype html>
+<head>
+    <title>PolyBlue</title>
+    <link rel="stylesheet" type="text/css" href="/static/jquery.css">
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="/static/jquery.terminal-0.8.8.min.js"></script>
+    <script src="/static/jquery.konami.min.js"></script>
+</head>
+
+<body style="background: BLACK;">
+<div id="content">
+</div>
+<img src="/static/bluemix.png" style="display: none; position:absolute;" id="logo"/>
+<script>
+
+$(document).ready(function() {
+	var ws = new WebSocket("ws://" + window.location.hostname + "/socket?Id=1");
+
+	var terminal = $('#content').terminal(function(command, term){
+		if (command !== ''){
+			ws.send(command);
+		} else {
+			term.echo('');
+		}
+	}, {
+		greetings: 'PolyBlue Terminal -+- v1.0',
+		height: 600,
+		prompt: '>>'
+	});
+
+	ws.onopen = function(){
+	}
+	ws.onmessage = function (evt) {
+		terminal.echo(evt.data);
+	}
+	ws.onclose = function() {
+		ws.send("Closing socket connection");
+	}
+    
+    $( window ).konami({
+       code : [38,38,40,40,37,39,37,39], // up up down down left right left right
+       cheat: function() {
+           var img = $('#logo').show();
+           var width = img.get(0).width;
+           var screenWidth = "+=" + $(window).width();
+           var duration = 10000;
+           
+           img.css("left", -width).animate({
+               "left": screenWidth}, duration, function() {
+                    img.fadeOut(1000);
+           });
+           
+       }
+    });
+});
+</script>
+</body>
