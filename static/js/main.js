@@ -10,9 +10,22 @@ $(document).ready(function() {
 		ws.send("Closing socket connection");
 	}
     
+    //Dynamically resize the map
     $('#content').height(function(){
        return $(window).height() * 0.9;
     });
+    
+    // Setup event listener for mouse click
+    var canvas = document.getElementById("map");
+    canvas.addEventListener("mousedown", function(e){
+        var x = e.x;
+        var y = e.y;
+        
+        x -= canvas.offsetLeft;
+        y -= canvas.offsetTop;
+        
+        alert("x:" + x + " y:" + y);
+    }, false);
 
     // Add Easter Egg
     $( window ).konami({
