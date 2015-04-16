@@ -1,6 +1,9 @@
 body {
-   font-family: 'Source Code Pro';
    background: #2E2E2E;
+}
+
+svg text tspan{
+    font-size: 2em;
 }
 
 #content {

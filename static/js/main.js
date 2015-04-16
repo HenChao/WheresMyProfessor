@@ -39,8 +39,22 @@ $(document).ready(function() {
         $.get('../insert',data);
         
         $('#insertModal').modal('hide');
-        var circle = paper.circle(clickedPositionX, clickedPositionY,30);
-        var text = paper.text(clickedPositionX, clickedPositionY, data['name'][0]);
+        var circle = paper.circle(
+                clickedPositionX,
+                clickedPositionY,30).attr({
+                "fill":"#fff",
+                "stroke":"#000",
+                "stroke-width":"5"
+            });
+        var text = paper.text(
+            clickedPositionX, clickedPositionY, data['name'][0]
+        );
+        circle.animate({opacity:0}, 3500, function(){
+            this.remove();
+        });
+        text.animate({opacity:0}, 3500, function(){
+            this.remove();
+        });
     });
     
     // Setup the Twitter autocomplete integration
