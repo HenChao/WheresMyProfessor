@@ -8,28 +8,10 @@ import json
 
 import cloudant
 
-if 'VCAP_SERVICES' in os.environ:
-    #convert vcap-services json into a dictionary
-    vcap_services = json.loads(os.environ['VCAP_SERVICES'])
-
-    #load information about mysql database into a separate dictionary
-    # and then grab the credentials
-    for key, value in vcap_services.iteritems():   # iter on both keys and values
-        if key.startswith('cloudant'):
-            mysql_info = vcap_services[key][0]
-    cred = mysql_info['credentials']
-            
-    #store parameters
-    dbhost = cred['host'].encode('utf8')
-    dbusername = cred['user'].encode('utf8')
-    dbpassword = cred['password'].encode('utf8')
-    dbport = cred['port']
-else:
-    #use these by default
-    dbhost = 'b14848a6-af44-4419-ad8b-9f08485aee66-bluemix.cloudant.com'
-    dbport = '443'
-    dbusername = 'b14848a6-af44-4419-ad8b-9f08485aee66-bluemix'
-    dbpassword = 'b1d165bd87a109d7c95ebb67ab75a16370a32809da819e076b4d16d77d807201'
+dbhost = 'b14848a6-af44-4419-ad8b-9f08485aee66-bluemix.cloudant.com'
+dbport = '443'
+dbusername = 'b14848a6-af44-4419-ad8b-9f08485aee66-bluemix'
+dbpassword = 'b1d165bd87a109d7c95ebb67ab75a16370a32809da819e076b4d16d77d807201'
     
 account = cloudant.Account(dbusername)
 login = account.login(dbusername,dbpassword)
