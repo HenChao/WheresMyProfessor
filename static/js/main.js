@@ -40,6 +40,7 @@ $(document).ready(function() {
         
         $('#insertModal').modal('hide');
         var circle = paper.circle(clickedPositionX, clickedPositionY,30);
+        var text = paper.text(clickedPositionX, clickedPositionY, data['name'][0]);
     });
     
     // Setup the Twitter autocomplete integration
