@@ -1,6 +1,7 @@
 $(document).ready(function() {
+    
+    // Setup Websocket connections and details
 	var ws = new WebSocket("ws://" + window.location.hostname + ":5000/socket?Id=1");
-	
 	ws.onopen = function(){
 	}
 	ws.onmessage = function (evt) {
@@ -8,7 +9,8 @@ $(document).ready(function() {
 	ws.onclose = function() {
 		ws.send("Closing socket connection");
 	}
-    
+
+    // Add Easter Egg
     $( window ).konami({
        code : [38,38,40,40,37,39,37,39], // up up down down left right left right
        cheat: function() {
