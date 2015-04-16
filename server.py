@@ -4,7 +4,6 @@ import tornado.ioloop
 import tornado.web
 import tornado.template
 import tornado.websocket
-import pymysql.cursors
 import json
 
 import cloudant
