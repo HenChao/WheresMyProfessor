@@ -14,6 +14,8 @@ $(document).ready(function() {
     $('#content').height(function(){
        return $(window).height() * 0.9;
     });
+    // Add insert modafl functionality
+    $('#insertModal').modal('hide');
     
     // Setup event listener for mouse click
     var canvas = document.getElementById("map");
@@ -24,7 +26,8 @@ $(document).ready(function() {
         x -= canvas.offsetLeft;
         y -= canvas.offsetTop;
         
-        alert("x:" + x + " y:" + y);
+        //alert("x:" + x + " y:" + y);
+        $('#insertModal').modal('show');
     }, false);
     
     // Setup the Twitter autocomplete integration
