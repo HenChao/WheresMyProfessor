@@ -1,7 +1,4 @@
 $(document).ready(function() {
-    
-    var canvas = document.getElementById('map');
-    //var canvasContext = canvas.getContext('2d');
     var clickedPositionX;
     var clickedPositionY;
     
@@ -19,9 +16,11 @@ $(document).ready(function() {
     
     var paper = Raphael($("#map")[0], 2095, 1000);
     var mapImage = paper.image('/static/floorplan.jpg',0, 0, 2095, 1000);
+    
     mapImage.click( function(event){
-        console.log('Drawing circle at: ' + event.pageX +' '+ event.pageY);
-        var circle = paper.circle(event.pageX,event.pageY,50);
+        clickedPositionX = event.pageX + $('#content').scrollLeft();
+        clickedPositionY = event.pageY + $('#content').scrollTop() - $('#navheader').outerHeight();
+        $('#insertModal').modal('show');
     });
     
     //Dynamically resize the map
@@ -33,22 +32,8 @@ $(document).ready(function() {
     $('#insertModal').modal('hide');
     $('#saveInsertModal').click(function(){
         $('#insertModal').modal('hide');
-        drawCircleOnCanvas(clickedPositionX, clickedPositionY);
+        var circle = paper.circle(clickedPositionX, clickedPositionY,30);
     });
-    
-    // Setup event listener for mouse click
-    /*canvas.addEventListener("mousedown", function(e){
-        var x = e.x;
-        var y = e.y;
-        
-        x -= canvas.offsetLeft;
-        y -= canvas.offsetTop;
-        
-        //alert("x:" + x + " y:" + y);
-        clickedPositionX = x;
-        clickedPositionY = y;
-        $('#insertModal').modal('show');
-    }, false);*/
     
     // Setup the Twitter autocomplete integration
     

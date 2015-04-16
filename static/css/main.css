@@ -11,12 +11,6 @@ body {
     overflow: auto;
 }
 
-canvas {
-    width: 2095px;
-    height: 1000px;
-    background: url('/static/floorplan.jpg');
-}
-
 .tt-dropdown-menu {
     background: white;
     padding: 5px;
