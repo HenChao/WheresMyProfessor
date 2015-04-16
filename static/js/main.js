@@ -9,6 +9,10 @@ $(document).ready(function() {
 	ws.onclose = function() {
 		ws.send("Closing socket connection");
 	}
+    
+    $('#content').height(function(){
+       return $(window).height() * 0.9;
+    });
 
     // Add Easter Egg
     $( window ).konami({
