@@ -31,6 +31,13 @@ $(document).ready(function() {
     // Add insert modal functionality
     $('#insertModal').modal('hide');
     $('#saveInsertModal').click(function(){
+        var data = {};
+        data['name'] = $('#insertName').val();
+        data['posX'] = clickedPositionX;
+        data['posY'] = clickedPositionY;
+        
+        $.get('../insert',data);
+        
         $('#insertModal').modal('hide');
         var circle = paper.circle(clickedPositionX, clickedPositionY,30);
     });

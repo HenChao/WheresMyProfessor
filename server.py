@@ -34,6 +34,7 @@ else:
 account = cloudant.Account(dbusername)
 login = account.login(dbusername,dbpassword)
 db = account.database('prod')
+dbLocations = account.database('locations')
 
 class IndexHandler(tornado.web.RequestHandler):
 	@tornado.web.asynchronous
@@ -47,8 +48,23 @@ class SearchHandler(tornado.web.RequestHandler):
     def get(self):
         doc = db.document('users')
         nameList = doc.get()
-        print(nameList.json()['names'])
         self.write(json.dumps(nameList.json()))
+        self.finish()
+
+class InsertHandler(tornado.web.RequestHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        dataName = self.get_argument('name')
+        dataPosX = self.get_argument('posX')
+        dataPosY = self.get_argument('posY')
+
+        doc = dbLocations.document(str(time.time()))
+        resp = doc.put(params={
+            'name' : dataName,
+            'posX' : dataPosX,
+            'posY' : dataPosY,
+            'time' : str(time.time())
+        })
         self.finish()
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
@@ -76,6 +92,7 @@ app = tornado.web.Application([
 		(r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'static/'}),
 		(r'/', IndexHandler),
         (r'/search', SearchHandler),
+        (r'/insert', InsertHandler),
 		(r'/socket', WebSocketHandler),
 		])
 
