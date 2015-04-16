@@ -5,6 +5,7 @@ import tornado.web
 import tornado.template
 import tornado.websocket
 import pymysql.cursors
+import json
 
 import cloudant
 
@@ -33,6 +34,7 @@ else:
     
 account = cloudant.Account(dbusername)
 login = account.login(dbusername,dbpassword)
+db = account.database('prod')
 
 class IndexHandler(tornado.web.RequestHandler):
 	@tornado.web.asynchronous
@@ -40,6 +42,15 @@ class IndexHandler(tornado.web.RequestHandler):
 		loader = tornado.template.Loader("templates/")
 		self.write(loader.load("index.html").generate())
 		self.finish()
+
+class SearchHandler(tornado.web.RequestHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        doc = db.document('users')
+        nameList = doc.get()
+        print(nameList.json()['names'])
+        self.write(json.dumps(nameList.json()))
+        self.finish()
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
 	webSocketClients = dict()
@@ -65,6 +76,7 @@ port = os.getenv('VCAP_APP_PORT', '5000')
 app = tornado.web.Application([
 		(r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'static/'}),
 		(r'/', IndexHandler),
+        (r'/search', SearchHandler),
 		(r'/socket', WebSocketHandler),
 		])
 
