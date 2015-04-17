@@ -3,7 +3,7 @@ $(document).ready(function() {
     var clickedPositionY;
     
     // Setup Websocket connections and details
-	var ws = new WebSocket("ws://" + window.location.hostname + "/socket?Id=" + Math.floor((Math.random() * 2000) + 1));
+	var ws = new WebSocket("ws://" + window.location.hostname + ":5000/socket?Id=" + Math.floor((Math.random() * 2000) + 1));
 	ws.onopen = function(){
 	}
 	ws.onmessage = function (evt) {
@@ -39,6 +39,7 @@ $(document).ready(function() {
         });
     }
     
+    // Click on map and popup a modal to ask who the user saw
     mapImage.click( function(event){
         clickedPositionX = event.pageX + $('#content').scrollLeft();
         clickedPositionY = event.pageY + $('#content').scrollTop() - $('#navheader').outerHeight();
@@ -51,8 +52,7 @@ $(document).ready(function() {
     });
     
     // Add insert modal functionality
-    $('#insertModal').modal('hide');
-    $('#saveInsertModal').click(function(){
+    function insertRecordOfWhoWasSeen(){
         var data = {};
         data['name'] = $('#insertName').val();
         data['posX'] = clickedPositionX;
@@ -62,15 +62,33 @@ $(document).ready(function() {
         
         $('#insertModal').modal('hide');
         drawCircleOnMap(clickedPositionX, clickedPositionY, data['name'][0], 30, '#b8dbd3', 3500);
+    };
+    $('#insertModal').modal('hide'); // Initial the modal
+    $('#insertName').keypress(function(e){
+       if(e.which == 13){
+           insertRecordOfWhoWasSeen();
+       }
+    });
+    $('#saveInsertModal').click(function(){
+        insertRecordOfWhoWasSeen()
     });
     
+    // Add request modal functionality
+    function sendNameOfSomeoneToFind(){
+        $('#requestModal').modal('hide');
+        ws.send( $('#requestName').val() );
+    }
     $('#requestModal').modal('hide');
     $('#requestButton').click(function(){
         $('#requestModal').modal('show');
     });
+    $('#requestName').keypress(function(e){
+       if(e.which == 13){
+           sendNameOfSomeoneToFind();
+       }
+    });
     $('#requestModalSubmit').click(function(){
-        $('#requestModal').modal('hide');
-        ws.send( $('#requestName').val() );
+        sendNameOfSomeoneToFind();
     });
     
     // Setup the Twitter autocomplete integration
@@ -108,7 +126,7 @@ $(document).ready(function() {
     });
     
     // Add find professor functionality
-    $('#findButton').click(function(){
+    function showLastKnownLocationOfProfessorOnMap(){
         sendData = {'findName': $('#findName').val()};
         
         $.get('../find',
@@ -134,6 +152,14 @@ $(document).ready(function() {
                     }
                 });
         });
+    };
+    $('#findName').keypress(function(e){
+       if(e.which == 13){
+           showLastKnownLocationOfProfessorOnMap();
+       }
+    });
+    $('#findButton').click(function(){
+        showLastKnownLocationOfProfessorOnMap();
     });
     
     // Hide alert field
