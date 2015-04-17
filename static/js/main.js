@@ -7,6 +7,12 @@ $(document).ready(function() {
 	ws.onopen = function(){
 	}
 	ws.onmessage = function (evt) {
+        $('#whoIsBeingLookedFor').html(evt.data);
+        height = $(window).height() / 2;
+        width = ($(window).width() / 2) - ($('#alertField').width() / 2);
+        $('#alertField').css('top', height);
+        $('#alertField').css('left', width);
+        $('#alertField').show();
 	}
 	ws.onclose = function() {
 		ws.send("Closing socket connection");
@@ -59,8 +65,12 @@ $(document).ready(function() {
     });
     
     $('#requestModal').modal('hide');
+    $('#requestButton').click(function(){
+        $('#requestModal').modal('show');
+    });
     $('#requestModalSubmit').click(function(){
-        
+        $('#requestModal').modal('hide');
+        ws.send( $('#requestName').val() );
     });
     
     // Setup the Twitter autocomplete integration
@@ -124,6 +134,12 @@ $(document).ready(function() {
                 });
         });
     });
+    
+    // Hide alert field
+    $('#closeAlertButton').click(function(){
+        $('#alertField').hide();
+    });
+    $('#alertField').hide();
     
     // Add Easter Egg
     $( window ).konami({

@@ -17,4 +17,13 @@ svg text tspan{
 .tt-dropdown-menu {
     background: white;
     padding: 5px;
+    border: 1px solid black;
+    -webkit-border-radius: 0px 0px 10px 10px;
+    -moz-border-radius: 0px 0px 10px 10px;
+    border-radius: 0px 0px 10px 10px;
+}
+
+#alertField {
+    position: absolute;
+    z-index: 100;
 }

@@ -20,8 +20,16 @@
         <a class="navbar-brand" href="#">Where's My Professor?</a>
             <div class="navbar-form navbar-left">
                 <input type="text" class="form-control typeahead" id="findName" placeholder="Enter Professor's Name" />
-                <button type="button" class="btn btn-default" id="findButton">Search</button>
+                <button type="button" class="form-control btn btn-default" id="findButton">Search</button>
+                <button type="button" class="btn btn-default" id="requestButton">
+                    <span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span>
+                </button>
             </div>
+    </div>
+    
+    <div class="alert alert-warning alert-dismissible" role="alert" id="alertField">
+      <button type="button" class="close" aria-label="Close" id="closeAlertButton"><span aria-hidden="true">&times;</span></button>
+      <strong>Hey, listen!</strong> Have you seen <strong><span id="whoIsBeingLookedFor"></span></strong> anywhere?
     </div>
     
     <div id="content">
@@ -42,6 +50,23 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="saveInsertModal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="requestModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form class="form-inline">
+                        <span>Who are you looking for?</span><br />
+                        <input type="text" class="form-control typeahead" id="requestName" placeholder="Enter Name here" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="requestModalSubmit">Find them, <strike>dead or</strike> alive!</button>
                 </div>
             </div>
         </div>
