@@ -17,7 +17,7 @@ $(document).ready(function() {
     var mapImage = paper.image('/static/floorplan.jpg',0, 0, 2095, 1000);
     
     //Helper function to draw on map
-    function drawCircleOnMap(x, y, firstLetterInName, radius, color){
+    function drawCircleOnMap(x, y, firstLetterInName, radius, color, fadeTime){
         var circle = paper.circle(
                 x, y, radius).attr({
                 "fill": color,
@@ -25,10 +25,10 @@ $(document).ready(function() {
                 "stroke-width":"5"
             });
         var text = paper.text(x, y, firstLetterInName);
-        circle.animate({opacity:0}, 3500, function(){
+        circle.animate({opacity:0}, fadeTime, function(){
             this.remove();
         });
-        text.animate({opacity:0}, 3500, function(){
+        text.animate({opacity:0}, fadeTime, function(){
             this.remove();
         });
     }
@@ -55,7 +55,7 @@ $(document).ready(function() {
         $.get('../insert',data);
         
         $('#insertModal').modal('hide');
-        drawCircleOnMap(clickedPositionX, clickedPositionY, data['name'][0], 30, '#b8dbd3');
+        drawCircleOnMap(clickedPositionX, clickedPositionY, data['name'][0], 30, '#b8dbd3', 3500);
     });
     
     // Setup the Twitter autocomplete integration
@@ -115,7 +115,7 @@ $(document).ready(function() {
                         radius = (radius < 15 ? 10 : radius);
                     }
                     
-                    drawCircleOnMap(posX, posY, dPoint['key'][0], radius, '#d3b8db ');
+                    drawCircleOnMap(posX, posY, dPoint['key'][0], radius, '#d3b8db', 60000);
                 });
         });
     });
