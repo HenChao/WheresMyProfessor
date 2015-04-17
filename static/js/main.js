@@ -3,6 +3,7 @@ $(document).ready(function() {
     var clickedPositionY;
     
     // Setup Websocket connections and details
+	var ws = new WebSocket("ws://" + window.location.hostname + "/socket?Id=" + Math.floor((Math.random() * 2000) + 1));
 	ws.onopen = function(){
 	}
 	ws.onmessage = function (evt) {
@@ -114,6 +115,8 @@ $(document).ready(function() {
               sendData,
               function(data){
                 var jData = jQuery.parseJSON(data);
+                var color = randomColor();
+            
                 jData['rows'].forEach(function(dPoint){
                     var posX = dPoint['value']['posX'];
                     var posY = dPoint['value']['posY'];
@@ -123,13 +126,12 @@ $(document).ready(function() {
                     var radius;
                     
                     if ((timeDifference > 30000) || (timeDifference < 0)){
-                        radius = 15   
+                        // Don't do anything! 
                     } else {
                         radius = 40 * (30000 - timeDifference) / 30000;
                         radius = (radius < 15 ? 10 : radius);
+                        drawCircleOnMap(posX, posY, dPoint['key'][0], radius, color, 60000);
                     }
-                    
-                    drawCircleOnMap(posX, posY, dPoint['key'][0], radius, '#d3b8db', 60000);
                 });
         });
     });
