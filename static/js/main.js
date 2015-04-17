@@ -3,7 +3,7 @@ $(document).ready(function() {
     var clickedPositionY;
     
     // Setup Websocket connections and details
-	var ws = new WebSocket("ws://" + window.location.hostname + ":5000/socket?Id=" + Math.floor((Math.random() * 2000) + 1));
+	var ws = new WebSocket("ws://" + window.location.hostname + "/socket?Id=" + Math.floor((Math.random() * 2000) + 1));
 	ws.onopen = function(){
 	}
 	ws.onmessage = function (evt) {
@@ -174,9 +174,11 @@ $(document).ready(function() {
        cheat: function() {
            var img = $('#logo').show();
            var width = img.get(0).width;
+           var height = $(window).height() / 4;
            var screenWidth = "+=" + $(window).width();
            var duration = 10000;
            
+           img.css("top", height);
            img.css("left", -width).animate({
                "left": screenWidth}, duration, function() {
                     img.fadeOut(1000);

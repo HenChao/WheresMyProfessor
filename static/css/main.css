@@ -27,3 +27,9 @@ svg text tspan{
     position: absolute;
     z-index: 100;
 }
+
+#logo {
+    display: none;
+    position:absolute;
+    z-index: 300;
+}
