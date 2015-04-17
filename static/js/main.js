@@ -3,7 +3,6 @@ $(document).ready(function() {
     var clickedPositionY;
     
     // Setup Websocket connections and details
-	var ws = new WebSocket("ws://" + window.location.hostname + ":5000/socket?Id=" + Math.floor((Math.random() * 100) + 1));
 	ws.onopen = function(){
 	}
 	ws.onmessage = function (evt) {
