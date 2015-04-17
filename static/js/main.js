@@ -128,7 +128,7 @@ $(document).ready(function() {
                     if ((timeDifference > 30000) || (timeDifference < 0)){
                         // Don't do anything! 
                     } else {
-                        radius = 40 * (30000 - timeDifference) / 30000;
+                        radius = 40 * Math.pow((30000 - timeDifference),6) / Math.pow(30000,6);
                         radius = (radius < 15 ? 10 : radius);
                         drawCircleOnMap(posX, posY, dPoint['key'][0], radius, color, 60000);
                     }
