@@ -58,6 +58,11 @@ $(document).ready(function() {
         drawCircleOnMap(clickedPositionX, clickedPositionY, data['name'][0], 30, '#b8dbd3', 3500);
     });
     
+    $('#requestModal').modal('hide');
+    $('#requestModalSubmit').click(function(){
+        
+    });
+    
     // Setup the Twitter autocomplete integration
     
     var substringMatcher = function(strs) {
