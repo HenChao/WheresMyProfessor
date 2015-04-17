@@ -103,8 +103,19 @@ $(document).ready(function() {
                 jData['rows'].forEach(function(dPoint){
                     var posX = dPoint['value']['posX'];
                     var posY = dPoint['value']['posY'];
+                    var time = dPoint['value']['time'];
+                    var currentTime = (new Date().getTime())/1000;
+                    var timeDifference = currentTime - parseInt(time);
+                    var radius;
                     
-                    drawCircleOnMap(posX, posY, dPoint['key'][0], 15, '#d3b8db ');
+                    if ((timeDifference > 30000) || (timeDifference < 0)){
+                        radius = 15   
+                    } else {
+                        radius = 40 * (30000 - timeDifference) / 30000;
+                        radius = (radius < 15 ? 10 : radius);
+                    }
+                    
+                    drawCircleOnMap(posX, posY, dPoint['key'][0], radius, '#d3b8db ');
                 });
         });
     });
